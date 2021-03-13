@@ -1,4 +1,5 @@
 ﻿using Mesi_Software.View;
+using static Mesi_Software.Utils.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +14,11 @@ namespace Mesi_Software.ViewModel
 {
     public class MainWindowsViewModel :BaseViewModel
     {
+
         public UserControl _currentPage = new Accueil();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
 
         public UserControl CurrentPage
         {

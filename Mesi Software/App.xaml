@@ -7,6 +7,7 @@
         <sys:String x:Key="AppName">Projet MESI</sys:String>
         <FontFamily x:Key="FontFamilyTitre">Comic Sans MS</FontFamily>
         <FontFamily x:Key="FontFamilyNormal">Segoe UI Semibold</FontFamily>
+        <FontFamily x:Key="FontFamilyInfo">OCR A Extended</FontFamily>
         <SolidColorBrush x:Key="appBG" Color="#FF252C4A"/>
         <SolidColorBrush x:Key="BtnBG" Color="#FFE4F33F"/>
         <SolidColorBrush x:Key="BtnSelectionBG" Color="#FF21486A"/>
@@ -17,5 +18,6 @@
         <SolidColorBrush x:Key="InfoDiscret" Color="#FF3C77AA"/>
         <sys:Double x:Key="FontSizeTitre">36</sys:Double>
         <sys:Double x:Key="FontSizeNormal">24</sys:Double>
+        <sys:Double x:Key="FontSizeInfo">15</sys:Double>
     </Application.Resources>
 </Application>
