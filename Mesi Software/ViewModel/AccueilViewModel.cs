@@ -2,6 +2,8 @@
 using System;
 using System.Reflection;
 using System.Windows;
+using Mesi_Software.View;
+
 namespace Mesi_Software.ViewModel
 {
     public class AccueilViewModel : BaseViewModel
@@ -10,10 +12,9 @@ namespace Mesi_Software.ViewModel
 
         public string appVersion { get => _appVersion; set { _appVersion = value; OnPropertyChanged(); } }
 
+        public RelayCommand commandBtnModeSolo => new RelayCommand(exec_Function => GotoPseudoPage(modeJeu.solo));
 
-        public RelayCommand commandBtnModeSolo => new RelayCommand(exec_Function => GoToPseudo(modeJeu.solo));
-        
-        public RelayCommand commandBtnModeMulti => new RelayCommand(exec_Function => GoToPseudo(modeJeu.multi));
+        public RelayCommand commandBtnModeMulti => new RelayCommand(exec_Function => GotoPseudoPage(modeJeu.multi));
 
         public RelayCommand commandBtnQuit => new RelayCommand(exec_Function => QuitterApplication());
 
@@ -24,12 +25,13 @@ namespace Mesi_Software.ViewModel
             appVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
-
-        private void GoToPseudo(modeJeu mode)
+        public void GotoPseudoPage(modeJeu mode)
         {
             switch(mode)
             {
                 case modeJeu.solo:
+                    PseudoViewModel pvm = new PseudoViewModel(modeJeu.multi);
+                    ChangePage(new Pseudo { DataContext = pvm });
                     break;   
                     
                 //case modeJeu.multi:
@@ -37,12 +39,11 @@ namespace Mesi_Software.ViewModel
 
                 default:
                     throw new Exception("Le mode choisit est inexistant");
-                    break;
             }
         }
 
 
-        private void QuitterApplication()
+        public void QuitterApplication()
         {
             MessageBoxResult result = MessageBox.Show("Voulez vous réellement quitter ?", "Fin de partie", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
