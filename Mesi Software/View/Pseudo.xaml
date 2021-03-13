@@ -13,7 +13,7 @@
     <Grid>
         <TextBlock Text="VOTRE PSEUDO" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="{DynamicResource FontLight}" FontFamily="{DynamicResource FontFamilyTitre}" FontSize="{DynamicResource FontSizeTitre}"/>
         <Button Command="{Binding btnHome}" Content="🏠" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="50" Height="50" Background="{DynamicResource BtnBG}" Foreground="{DynamicResource FontDark}" FontFamily="{DynamicResource FontFamilyTitre}" FontSize="{DynamicResource FontSizeNormal}"/>
-        <TextBlock Text="{Binding modeJeuEnCours}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Foreground="{DynamicResource InfoDiscret}"/>
+        <TextBlock Text="{Binding modeJeu}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Foreground="{DynamicResource InfoDiscret}"/>
 
     </Grid>
 </UserControl>
