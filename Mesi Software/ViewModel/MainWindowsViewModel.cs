@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
+using Mesi_Software.Utils;
 
 namespace Mesi_Software.ViewModel
 {
@@ -18,6 +20,8 @@ namespace Mesi_Software.ViewModel
         public UserControl _currentPage = new Accueil();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
 
 
         public UserControl CurrentPage
@@ -31,6 +35,12 @@ namespace Mesi_Software.ViewModel
                 _currentPage = value;
                 OnPropertyChanged();
             }
+        }
+    
+    
+        public MainWindowsViewModel()
+        {
+            mainWindow.SizeChanged += FunctionEvent.mainWindow_SizeChanged;
         }
     }
 }

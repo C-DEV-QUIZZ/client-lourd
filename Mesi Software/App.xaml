@@ -1,23 +1,30 @@
 ﻿<Application x:Class="Mesi_Software.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Mesi_Software" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:Mesi_Software" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-        <sys:String x:Key="AppName">Projet MESI</sys:String>
-        <FontFamily x:Key="FontFamilyTitre">Comic Sans MS</FontFamily>
-        <FontFamily x:Key="FontFamilyNormal">Segoe UI Semibold</FontFamily>
-        <FontFamily x:Key="FontFamilyInfo">OCR A Extended</FontFamily>
-        <SolidColorBrush x:Key="appBG" Color="#FF252C4A"/>
-        <SolidColorBrush x:Key="BtnBG" Color="#FFE4F33F"/>
-        <SolidColorBrush x:Key="BtnSelectionBG" Color="#FF21486A"/>
-        <SolidColorBrush x:Key="FontDark" Color="Black"/>
-        <SolidColorBrush x:Key="FontLight" Color="White"/>
-        <SolidColorBrush x:Key="InfoWarning" Color="#FFFF6E6E"/>
-        <SolidColorBrush x:Key="InfoSuccess" Color="#FF95ED99"/>
-        <SolidColorBrush x:Key="InfoDiscret" Color="#FF3C77AA"/>
-        <sys:Double x:Key="FontSizeTitre">36</sys:Double>
-        <sys:Double x:Key="FontSizeNormal">24</sys:Double>
-        <sys:Double x:Key="FontSizeInfo">15</sys:Double>
+        <ResourceDictionary>
+            <sys:String x:Key="AppName">Projet MESI</sys:String>
+            <FontFamily x:Key="FontFamilyTitre">Comic Sans MS</FontFamily>
+            <FontFamily x:Key="FontFamilyNormal">Segoe UI Semibold</FontFamily>
+            <FontFamily x:Key="FontFamilyInfo">OCR A Extended</FontFamily>
+            <SolidColorBrush x:Key="appBG" Color="#FF252C4A"/>
+            <SolidColorBrush x:Key="BtnBG" Color="#FFE4F33F"/>
+            <SolidColorBrush x:Key="BtnSelectionBG" Color="#FF21486A"/>
+            <SolidColorBrush x:Key="FontDark" Color="Black"/>
+            <SolidColorBrush x:Key="FontLight" Color="White"/>
+            <SolidColorBrush x:Key="InfoWarning" Color="#FFFF6E6E"/>
+            <SolidColorBrush x:Key="InfoSuccess" Color="#FF95ED99"/>
+            <SolidColorBrush x:Key="InfoDiscret" Color="#FF3C77AA"/>
+            <sys:Double x:Key="FontSizeTitre">36</sys:Double>
+            <sys:Double x:Key="FontSizeNormal">24</sys:Double>
+            <sys:Double x:Key="FontSizeInfo">15</sys:Double>
+            <sys:Double x:Key="FontSizeInput">24</sys:Double>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
