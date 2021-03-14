@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
+using Mesi_Software.Utils;
 
 namespace Mesi_Software.ViewModel
 {
@@ -39,29 +40,7 @@ namespace Mesi_Software.ViewModel
     
         public MainWindowsViewModel()
         {
-            mainWindow.SizeChanged += mainWindow_SizeChanged;
-        }
-
-        /// <summary>
-        /// Mise a jour de la police quand on resize la fenetre
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void mainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            double hauteur = mainWindow.Height;
-            double largeur = mainWindow.Width;
-            double PlusGrand = hauteur > largeur ? hauteur : largeur;
-
-            double vMaxNormal = PlusGrand / 30;
-            double vMaxTitre = PlusGrand / 20;
-            double vMaxInfo = PlusGrand / 50;
-            double vMaxInput= PlusGrand / 40;
-
-            Application.Current.Resources["FontSizeTitre"] = vMaxTitre;
-            Application.Current.Resources["FontSizeNormal"] = vMaxNormal;
-            Application.Current.Resources["FontSizeInfo"] = vMaxInfo;
-            Application.Current.Resources["FontSizeInput"] = vMaxInfo;
+            mainWindow.SizeChanged += FunctionEvent.mainWindow_SizeChanged;
         }
     }
 }
