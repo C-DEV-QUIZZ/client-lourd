@@ -14,9 +14,23 @@ namespace Mesi_Software.ViewModel
         public modeJeu modeJeu { get => (modeJeu) Enum.Parse(typeof(modeJeu),_modeJeu); set { _modeJeu = value.ToString(); OnPropertyChanged(); } }
 
         public RelayCommand btnHome => new RelayCommand(exeFunction => returnPageAccueil());
-
+        public RelayCommand btnGoToGame => new RelayCommand(exeFunction => GoToGame());
 
         public PseudoViewModel(){}
+
+
+        public void GoToGame()
+        {
+            switch (modeJeu)
+            {
+                case modeJeu.solo:
+                    ChangePage(new modeSolo());
+                    break;
+                default:
+                    throw new Exception("Le mode de jeu n'est pas encore intégré !");
+            }
+
+        }
 
         public void returnPageAccueil()
         {

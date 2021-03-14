@@ -15,7 +15,7 @@ namespace Mesi_Software.Utils
             double largeur = mainWindow.Width;
             double PlusGrand = hauteur > largeur ? hauteur : largeur;
 
-            double vMaxNormal = PlusGrand / 30;
+            double vMaxNormal = PlusGrand / 35;
             double vMaxTitre = PlusGrand / 25;
             double vMaxInfo = PlusGrand / 50;
             double vMaxInput = PlusGrand / 40;
@@ -23,7 +23,7 @@ namespace Mesi_Software.Utils
             Application.Current.Resources["FontSizeTitre"] = vMaxTitre;
             Application.Current.Resources["FontSizeNormal"] = vMaxNormal;
             Application.Current.Resources["FontSizeInfo"] = vMaxInfo;
-            Application.Current.Resources["FontSizeInput"] = vMaxInfo;
+            Application.Current.Resources["FontSizeInput"] = vMaxInput;
         }
     }
 }
