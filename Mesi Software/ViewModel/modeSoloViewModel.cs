@@ -1,12 +1,17 @@
-﻿using Mesi_Software.Tools;
+﻿using Mesi_Software.Entity;
+using Mesi_Software.Tools;
 using Mesi_Software.Utils;
 using Mesi_Software.View;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using static Mesi_Software.Utils.Enums;
 
 namespace Mesi_Software.ViewModel
 {
@@ -17,18 +22,35 @@ namespace Mesi_Software.ViewModel
 
         public RelayCommand LoadedCommand => new RelayCommand(exeFunction => onLoad());
 
+        public modeJeu mode { get; } =  modeJeu.solo; 
 
         MainWindowsViewModel windowsViewModel;
 
         private modeSolo _view;
 
+        public List<Questions> listQuestions;
+
         public modeSoloViewModel() 
         {
             // appel ajax vers back-end pour récupérer les questions (gestion des cas si back non disponible)
 
-            // stockage des questions dans une listes 
+            var donnee = new { mode = (int)mode };
+            var jsonString = JsonSerializer.Serialize(donnee);
+            var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
+            string result =  InteractorHttp.Post(Constantes.Routes.MODE_SOLO_CONTROLLER, data);
+
+            Debug.WriteLine(result);
+
+
+            // stockage des questions dans une listes 
+            listQuestions = JsonSerializer.Deserialize<List<Questions>>(result);
+
+
+            Debug.WriteLine(listQuestions);
             // Affiche la 1ere question de la liste dans _questionsEnCours
+
+            questionEnCours = listQuestions.First<Questions>().texte;
         }
 
         public void onLoad()
@@ -42,7 +64,7 @@ namespace Mesi_Software.ViewModel
             bouton1.Margin = new Thickness(10, 10, 10, 10);
             bouton1.HorizontalAlignment = HorizontalAlignment.Stretch;
             bouton1.VerticalAlignment = VerticalAlignment.Stretch;
-
+            bouton1.Click += Bouton1_Click;
 
 
             Button bouton2 = new Button();
@@ -129,10 +151,12 @@ namespace Mesi_Software.ViewModel
             _view.grid_reponses.Children.Add(bouton5);
             _view.grid_reponses.Children.Add(bouton6);
 
-            // création des boutons associé a la réponse
-            //Button bouton = new Button();
-            //bouton.Content = "zizi";
-            //_view.grid_reponses.Children.Add(bouton);
+        }
+
+        private void Bouton1_Click(object sender, RoutedEventArgs e)
+        {
+            listQuestions.RemoveAt(0);
+            questionEnCours = listQuestions.First().texte;
         }
         // Creer une méthode qui récupère la réponse et l'id de la question et on stocke dans une collection
         // clé / valeur.

@@ -47,15 +47,17 @@ namespace Mesi_Software.ViewModel
 
         public UserControl sendValue(modeJeu mode)
         {
+
+
             var donnee = new { mode = (int)mode };
             var jsonString = JsonSerializer.Serialize(donnee);
-
             var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            string result = InteractorHttp.Post("http://localhost:80/controller/receptionModeController.php", data);
 
-            var data3 = JsonSerializer.Deserialize<Dictionary<string, string>>(result);
+            string result = InteractorHttp.Post(Constantes.Routes.MODE_RECEPTION_CONTROLLER, data);
 
-            return data3[Constantes.KEY_CHEMIN_BACK_END] == Constantes.MODE_SOLO_VALUE_BACK_END ? new modeSolo() : throw new Exception("Non implémenter");
+            var dictionnaireResultChemin = JsonSerializer.Deserialize<Dictionary<string, string>>(result);
+
+            return dictionnaireResultChemin[Constantes.KEY_CHEMIN_BACK_END] == Constantes.MODE_SOLO_VALUE_BACK_END ? new modeSolo() : throw new Exception("Non implémenter");
         }
     }
 }

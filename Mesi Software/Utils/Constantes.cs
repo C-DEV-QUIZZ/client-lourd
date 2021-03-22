@@ -11,5 +11,15 @@ namespace Mesi_Software.Utils
         public const string KEY_CHEMIN_BACK_END = "chemin";
 
         public const string MODE_SOLO_VALUE_BACK_END = "mode-solo";
+
+
+        public class Routes
+        {
+            private const string ADRESSE = "http://localhost:80/controller/";
+
+            public const string MODE_RECEPTION_CONTROLLER = ADRESSE+ "receptionModeController.php";
+
+            public const string MODE_SOLO_CONTROLLER = ADRESSE+ "modeSoloController.php";
+        }
     }
 }
