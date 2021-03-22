@@ -1,4 +1,5 @@
-﻿using Mesi_Software.Utils;
+﻿using Mesi_Software.Tools;
+using Mesi_Software.Utils;
 using Mesi_Software.View;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Mesi_Software.ViewModel
 
 
         MainWindowsViewModel windowsViewModel;
+
         private modeSolo _view;
 
         public modeSoloViewModel() 
@@ -27,7 +29,6 @@ namespace Mesi_Software.ViewModel
             // stockage des questions dans une listes 
 
             // Affiche la 1ere question de la liste dans _questionsEnCours
-
         }
 
         public void onLoad()

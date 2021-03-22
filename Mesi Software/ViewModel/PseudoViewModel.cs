@@ -5,6 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using Mesi_Software.View;
 using System.Windows;
+using Mesi_Software.Tools;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Text.Json;
+using System.Windows.Controls;
 
 namespace Mesi_Software.ViewModel
 {
@@ -21,20 +26,36 @@ namespace Mesi_Software.ViewModel
 
         public void GoToGame()
         {
+            UserControl page;
             switch (modeJeu)
             {
                 case modeJeu.solo:
-                    ChangePage(new modeSolo());
+                    page=sendValue(modeJeu.solo);
                     break;
                 default:
                     throw new Exception("Le mode de jeu n'est pas encore intégré !");
             }
+
+            ChangePage(page);
 
         }
 
         public void returnPageAccueil()
         {
             ChangePage(new Accueil());
+        }
+
+        public UserControl sendValue(modeJeu mode)
+        {
+            var donnee = new { mode = (int)mode };
+            var jsonString = JsonSerializer.Serialize(donnee);
+
+            var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            string result = InteractorHttp.Post("http://localhost:80/controller/receptionModeController.php", data);
+
+            var data3 = JsonSerializer.Deserialize<Dictionary<string, string>>(result);
+
+            return data3[Constantes.KEY_CHEMIN_BACK_END] == Constantes.MODE_SOLO_VALUE_BACK_END ? new modeSolo() : throw new Exception("Non implémenter");
         }
     }
 }
