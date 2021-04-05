@@ -11,13 +11,14 @@ using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using static Mesi_Software.Utils.Enums;
 
 namespace Mesi_Software.ViewModel
 {
     public class modeSoloViewModel :BaseViewModel
     {
-        private string _questionEnCours { get; set; } = Constantes.FAKE_QUESTION;
+        private string _questionEnCours { get; set; }
         public string questionEnCours { get => _questionEnCours +" ?"; set { _questionEnCours = value; OnPropertyChanged(); } }
 
         public RelayCommand LoadedCommand => new RelayCommand(exeFunction => onLoad());
@@ -29,6 +30,8 @@ namespace Mesi_Software.ViewModel
         private modeSolo _view;
 
         public List<Questions> listQuestions;
+
+        public List<Tuple<int, int>> listQuestionReponse = new List<Tuple<int, int>>();
 
         public modeSoloViewModel() 
         {
@@ -59,107 +62,126 @@ namespace Mesi_Software.ViewModel
             windowsViewModel = Application.Current.MainWindow.DataContext as MainWindowsViewModel;
              _view =  windowsViewModel.CurrentPage as modeSolo;
 
-            Button bouton1 = new Button();
-            bouton1.Content = "test1";
-            bouton1.Margin = new Thickness(10, 10, 10, 10);
-            bouton1.HorizontalAlignment = HorizontalAlignment.Stretch;
-            bouton1.VerticalAlignment = VerticalAlignment.Stretch;
-            bouton1.Click += Bouton1_Click;
-
-
-            Button bouton2 = new Button();
-            bouton2.Content = "test2";
-            bouton2.Margin = new Thickness(10, 10, 10, 10);
-            bouton2.HorizontalAlignment = HorizontalAlignment.Stretch;
-            bouton2.VerticalAlignment = VerticalAlignment.Stretch;
-
-
-            Button bouton3 = new Button();
-            bouton3.Content = "test3";
-            bouton3.Margin = new Thickness(10, 10, 10, 10);
-            bouton3.HorizontalAlignment = HorizontalAlignment.Stretch;
-            bouton3.VerticalAlignment = VerticalAlignment.Stretch;
-
-            Button bouton4 = new Button();
-            bouton4.Content = "test4";
-            bouton4.Margin = new Thickness(10, 10, 10, 10);
-            bouton4.HorizontalAlignment = HorizontalAlignment.Stretch;
-            bouton4.VerticalAlignment = VerticalAlignment.Stretch;
-
-
-            Button bouton5 = new Button();
-            bouton5.Content = "test5";
-            bouton5.Margin = new Thickness(10, 10, 10, 10);
-            bouton5.HorizontalAlignment = HorizontalAlignment.Stretch;
-            bouton5.VerticalAlignment = VerticalAlignment.Stretch;
-
-
-
-            Button bouton6 = new Button();
-            bouton6.Content = "test6";
-            bouton6.Margin = new Thickness(10, 10, 10, 10);
-            bouton6.HorizontalAlignment = HorizontalAlignment.Stretch;
-            bouton6.VerticalAlignment = VerticalAlignment.Stretch;
-
-
-
-            ColumnDefinition c1 = new ColumnDefinition();
-            c1.Width = new GridLength(20, GridUnitType.Star);
-
-            ColumnDefinition c2 = new ColumnDefinition();
-            c2.Width = new GridLength(20, GridUnitType.Star);
-                        
-            ColumnDefinition c3 = new ColumnDefinition();
-            c3.Width = new GridLength(20, GridUnitType.Star);
-
-            RowDefinition r1 = new RowDefinition();
-            r1.Height = new GridLength(20, GridUnitType.Star);            
-            
-            RowDefinition r2 = new RowDefinition();
-            r2.Height = new GridLength(20, GridUnitType.Star);
-
-            Grid.SetColumn(bouton1, 0);
-            Grid.SetRow(bouton1, 0);
-
-            Grid.SetColumn(bouton2, 1);
-            Grid.SetRow(bouton2, 0);            
-            
-            Grid.SetColumn(bouton3, 2);
-            Grid.SetRow(bouton3, 0);            
-            
-            Grid.SetColumn(bouton4, 0);
-            Grid.SetRow(bouton4, 1);            
-            
-            Grid.SetColumn(bouton5, 1);
-            Grid.SetRow(bouton5, 1);        
-            
-            Grid.SetColumn(bouton6, 2);
-            Grid.SetRow(bouton6, 1);
-
-
-
-            _view.grid_reponses.ColumnDefinitions.Add(c1);
-            _view.grid_reponses.ColumnDefinitions.Add(c2);            
-            _view.grid_reponses.ColumnDefinitions.Add(c3);
-
-            _view.grid_reponses.RowDefinitions.Add(r1);
-            _view.grid_reponses.RowDefinitions.Add(r2);
-            _view.grid_reponses.Children.Add(bouton1);
-            _view.grid_reponses.Children.Add(bouton2);
-            _view.grid_reponses.Children.Add(bouton3);
-            _view.grid_reponses.Children.Add(bouton4);
-            _view.grid_reponses.Children.Add(bouton5);
-            _view.grid_reponses.Children.Add(bouton6);
-
+            CreationDynamicBouton(listQuestions.First());
         }
 
-        private void Bouton1_Click(object sender, RoutedEventArgs e)
+        private void CreationDynamicBouton(Questions questions)
         {
-            listQuestions.RemoveAt(0);
-            questionEnCours = listQuestions.First().texte;
+            (int colonnes, int lignes) gridValues = CalculNombreColumnRow(questions.reponses.Count);
+            ConstructionGrid(_view.grid_reponses,gridValues);
+            PlacementBouton(_view.grid_reponses, questions, gridValues.colonnes);
         }
-        // Creer une méthode qui récupère la réponse et l'id de la question et on stocke dans une collection
-        // clé / valeur.
-        // on supprime le premiere élément de la liste et on actualise _questionsEnCours.
+
+        private void PlacementBouton(Grid grid, Questions question,int NbColonneTotal)
+        {
+            int compteurColonne = 0;
+            int compteurLigne = 0;
+            Button bouton;
+
+            foreach( Reponses reponse in question.reponses)
+            {
+                bouton  = new Button();
+                bouton.Content = reponse.texte;
+                bouton.DataContext = new Tuple<int,int>(question.id,reponse.id); // lie l'id de la question et de la réponse au bouton
+                bouton.Margin = new Thickness(10, 10, 10, 10);
+                bouton.Height = Double.NaN;
+                bouton.Width = Double.NaN;
+                bouton.SetResourceReference(Control.BackgroundProperty, "BtnBG");
+                bouton.SetResourceReference(Control.ForegroundProperty, "FontDark");
+                bouton.SetResourceReference(Control.FontFamilyProperty, "FontFamilyTitre");
+                bouton.SetResourceReference(Control.FontSizeProperty, "FontSizeReponse");
+                bouton.HorizontalAlignment = HorizontalAlignment.Stretch;
+                bouton.VerticalAlignment = VerticalAlignment.Stretch;
+                Grid.SetColumn(bouton, compteurColonne);
+                Grid.SetRow(bouton, compteurLigne);
+                grid.Children.Add(bouton);
+                bouton.Click += Bouton_Click;
+                compteurColonne++;
+
+                if(compteurColonne >= NbColonneTotal)
+                {
+                    compteurColonne = 0;
+                    compteurLigne++;
+                }
+            }
+        }
+
+        private void ConstructionGrid(Grid grid, (int colonnes, int lignes) GridValues)
+        {
+            grid.ColumnDefinitions.Clear();
+            grid.RowDefinitions.Clear();
+            grid.Children.Clear();
+            ColumnDefinition c1;
+
+            // On construit les colonnes :
+            for (int i = 0; i < GridValues.colonnes;i++)
+            {
+                c1 = new ColumnDefinition();
+                c1.Width = new GridLength(20, GridUnitType.Star);
+                grid.ColumnDefinitions.Add(c1);
+            }
+            RowDefinition r1;
+            // On construis les lignes
+            for (int i = 0; i < GridValues.lignes; i++)
+            {
+                r1 = new RowDefinition();
+                r1.Height = new GridLength(20, GridUnitType.Star);
+                grid.RowDefinitions.Add(r1);
+            }
+
+        }
+
+        public (int colonnes,int lignes) CalculNombreColumnRow(int Nbreponse)
+        {
+            if (Nbreponse < 2)
+                throw new Exceptions.QuestionsException(Constantes.Message.ERROR_MESSAGE_NB_REPONSES_INCORRECT);
+
+            if (Nbreponse == 2)
+                return (2, 2); // 2 lignes car le bouton est énorme sinon
+
+            else if (Nbreponse % 3 == 0)
+                return (3, Nbreponse / 3);
+
+            else
+                return (3, (int)Math.Ceiling(Nbreponse / 3.0)); //idem => (int)Math.Round((Nbréponse / 3) + 0.5))
+        }
+
+        private void Bouton_Click(object sender, RoutedEventArgs e)
+        {
+            if (listQuestions.Count == 0)
+            {
+                return;
+            }
+
+            // desactive la grille pour bloquer le double clique:
+            _view.grid_reponses.IsEnabled = false;
+
+            Button button = sender as Button;
+            Tuple<int,int> idQuestionReponse = button.DataContext as Tuple<int,int>; // recupère l'id de la question et de la reponse lié au bouton
+
+            // ajoute l'id de la question et de la réponse bouton
+            listQuestionReponse.Add(idQuestionReponse);
+
+            listQuestions.RemoveAt(0);
+
+            if (listQuestions.Count != 0)
+            {
+                questionEnCours = listQuestions.First().texte;
+                CreationDynamicBouton(listQuestions.First());
+                _view.grid_reponses.IsEnabled = true;
+            }
+            else
+            {
+                questionEnCours = "tout est fini !!";
+                Finish();
+            }
+        }
+
+        private void Finish()
+        {
+            _view.grid_reponses.Children.Clear();
+            _view.grid_reponses.ColumnDefinitions.Clear();
+            _view.grid_reponses.RowDefinitions.Clear();
+        }
     }
 }

@@ -42,5 +42,6 @@ namespace Mesi_Software.ViewModel
         {
             mainWindow.SizeChanged += FunctionEvent.mainWindow_SizeChanged;
         }
+
     }
 }

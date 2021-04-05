@@ -21,5 +21,10 @@ namespace Mesi_Software.Utils
 
             public const string MODE_SOLO_CONTROLLER = ADRESSE+ "modeSoloController.php";
         }
+
+        public class Message
+        {
+            public const string ERROR_MESSAGE_NB_REPONSES_INCORRECT = "Le nombre de réponse de la question est inférieur à 2";
+        }
     }
 }

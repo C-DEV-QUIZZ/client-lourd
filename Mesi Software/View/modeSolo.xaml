@@ -30,10 +30,8 @@
             <RowDefinition Height="200*"/>
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="grid_reponses" Grid.Column="1" Grid.Row="1" Background="#FF999494" Margin="25,25,25,25">
-            
-        </Grid>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,10,0,10" Text="{Binding questionEnCours}" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="{DynamicResource FontSizeNormal}" FontFamily="{DynamicResource FontFamilyNormal}" Foreground="{DynamicResource FontLight}"/>
+        <Grid x:Name="grid_reponses" Grid.Column="1" Grid.Row="1" Margin="25,25,25,25"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,10,0,10" Text="{Binding questionEnCours}" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="{DynamicResource FontSizeNormal}" FontFamily="{DynamicResource FontFamilyNormal}" Foreground="{DynamicResource FontLight}"/>
 
     </Grid>
 </UserControl>
