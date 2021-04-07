@@ -1,6 +1,7 @@
 ﻿using Mesi_Software.View;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 
@@ -8,13 +9,14 @@ namespace Mesi_Software.ViewModel
 {
     public class ScoreSoloViewModel : BaseViewModel
     {
-        private string _pseudo = "test";
+        private string _pseudo;
 
         public string pseudo { get => _pseudo; set { _pseudo = value; OnPropertyChanged(); } }
                 
-        private int _points = 116;
+        private int _points = -1 ;
 
         public int points { get => _points; set { _points = value; OnPropertyChanged(); } }
+
 
         MainWindowsViewModel windowsViewModel;
 
@@ -23,10 +25,11 @@ namespace Mesi_Software.ViewModel
         public RelayCommand btnHome => new RelayCommand(exeFunction => returnPageAccueil());
 
 
-
         public RelayCommand LoadedCommand => new RelayCommand(exeFunction => onLoad());
 
-
+        public ScoreSoloViewModel()
+        {
+        }
 
         public void onLoad()
         {

@@ -23,7 +23,18 @@ namespace Mesi_Software.ViewModel
 
         MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
 
+        private string _pseudo { get; set; }
 
+        public string pseudoSolo
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this._pseudo))
+                    return Constantes.PSEUDO_INCONNU;
+                return this._pseudo;
+            }
+            set { _pseudo = value; }
+        }
         public UserControl CurrentPage
         {
             get

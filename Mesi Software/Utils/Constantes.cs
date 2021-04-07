@@ -12,6 +12,8 @@ namespace Mesi_Software.Utils
 
         public const string MODE_SOLO_VALUE_BACK_END = "mode-solo";
 
+        public const string PSEUDO_INCONNU = "Inconnu";
+
         public class Routes
         {
             private const string ADRESSE = "http://localhost:80/controller/";
@@ -19,11 +21,17 @@ namespace Mesi_Software.Utils
             public const string MODE_RECEPTION_CONTROLLER = ADRESSE+ "receptionModeController.php";
 
             public const string MODE_SOLO_CONTROLLER = ADRESSE+ "modeSoloController.php";
+
+            public const string CALCUL_RESULTAT_SOLO_CONTROLLER = ADRESSE+ "calculResultatSoloController.php";
         }
 
         public class Message
         {
             public const string ERROR_MESSAGE_NB_REPONSES_INCORRECT = "Le nombre de réponse de la question est inférieur à 2";
+
+            public const string ERROR_MESSAGE_MODE_NOT_IMPLEMENT= "Le mode de jeu n'est pas encore implémenter";
+
+            public const string ERROR_NB_CARACTER = "3 caractères minimum !";
         }
 
     }
@@ -54,7 +62,7 @@ namespace Mesi_Software.Utils
 
         public const string TOOL_TIPS_BTN_QUITTER = "Cliquez pour fermer l'application";
 
-        public const string TOOL_TIPS_BTN_MODE_NOT_IMPLEMENT = "Le mode de jeu n'est pas encore implémenter";
+        public const string TOOL_TIPS_BTN_MODE_NOT_IMPLEMENT = Constantes.Message.ERROR_MESSAGE_MODE_NOT_IMPLEMENT;
 
         public const string TOOL_TIPS_BTN_HOME = "Cliquez pour revenir sur la page d'accueil";
 

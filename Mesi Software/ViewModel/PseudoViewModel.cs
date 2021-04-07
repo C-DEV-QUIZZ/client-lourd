@@ -15,7 +15,7 @@ namespace Mesi_Software.ViewModel
 {
     public class PseudoViewModel :BaseViewModel
     {
-        private string _modeJeu;
+        private string _modeJeu ="solo";
         public modeJeu modeJeu { get => (modeJeu) Enum.Parse(typeof(modeJeu),_modeJeu); set { _modeJeu = value.ToString(); OnPropertyChanged(); } }
 
         private string _pseudo = string.Empty;
@@ -53,22 +53,19 @@ namespace Mesi_Software.ViewModel
             Debug.WriteLine(pseudo);
             if (pseudo.Length < 3)
             {
-
-                FunctionEvent.MessageErrorOnBouton(_view.btn_valid, "3 caractère minimum !");
+                FunctionEvent.MessageErrorOnBouton(_view.btn_valid, Constantes.Message.ERROR_NB_CARACTER);
                 return;
             }
 
-
-
             UserControl page;
-
+            windowsViewModel.pseudoSolo = pseudo;
             switch (modeJeu)
             {
                 case modeJeu.solo:
                     page=sendValue(modeJeu.solo);
                     break;
                 default:
-                    throw new Exception("Le mode de jeu n'est pas encore intégré !");
+                    throw new Exception(Constantes.Message.ERROR_MESSAGE_MODE_NOT_IMPLEMENT);
             }
 
             ChangePage(page);
@@ -82,13 +79,9 @@ namespace Mesi_Software.ViewModel
 
         public UserControl sendValue(modeJeu mode)
         {
-
-
             var donnee = new { mode = (int)mode };
-            var jsonString = JsonSerializer.Serialize(donnee);
-            var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-            string result = InteractorHttp.Post(Constantes.Routes.MODE_RECEPTION_CONTROLLER, data);
+            string result = InteractorHttp.Post(Constantes.Routes.MODE_RECEPTION_CONTROLLER, donnee);
 
             var dictionnaireResultChemin = JsonSerializer.Deserialize<Dictionary<string, string>>(result);
 

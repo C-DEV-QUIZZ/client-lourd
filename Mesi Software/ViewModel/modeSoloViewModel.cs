@@ -29,31 +29,31 @@ namespace Mesi_Software.ViewModel
 
         private modeSolo _view;
 
+        private ScoreSolo _scoreView = new ScoreSolo(); // (1)
+
+        private ScoreSoloViewModel _scoreViewModel; // (2)
+
         public List<Questions> listQuestions;
 
-        public List<Tuple<int, int>> listQuestionReponse = new List<Tuple<int, int>>();
+        public List<ReponseJoueursSolo> listReponseJoueursSolo = new List<ReponseJoueursSolo>();
 
         public modeSoloViewModel() 
         {
             // appel ajax vers back-end pour récupérer les questions (gestion des cas si back non disponible)
 
+
+
             var donnee = new { mode = (int)mode };
-            var jsonString = JsonSerializer.Serialize(donnee);
-            var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-            string result =  InteractorHttp.Post(Constantes.Routes.MODE_SOLO_CONTROLLER, data);
-
-            Debug.WriteLine(result);
-
+            string result =  InteractorHttp.Post(Constantes.Routes.MODE_SOLO_CONTROLLER, donnee);
 
             // stockage des questions dans une listes 
             listQuestions = JsonSerializer.Deserialize<List<Questions>>(result);
 
-
-            Debug.WriteLine(listQuestions);
             // Affiche la 1ere question de la liste dans _questionsEnCours
-
             questionEnCours = listQuestions.First<Questions>().texte;
+            _scoreViewModel = _scoreView.DataContext as ScoreSoloViewModel;
+
         }
 
         public void onLoad()
@@ -69,10 +69,10 @@ namespace Mesi_Software.ViewModel
         {
             (int colonnes, int lignes) gridValues = CalculNombreColumnRow(questions.reponses.Count);
             ConstructionGrid(_view.grid_reponses,gridValues);
-            PlacementBouton(_view.grid_reponses, questions, gridValues.colonnes);
+            CreateBouton(_view.grid_reponses, questions, gridValues.colonnes);
         }
 
-        private void PlacementBouton(Grid grid, Questions question,int NbColonneTotal)
+        private void CreateBouton(Grid grid, Questions question,int NbColonneTotal)
         {
             int compteurColonne = 0;
             int compteurLigne = 0;
@@ -82,7 +82,7 @@ namespace Mesi_Software.ViewModel
             {
                 bouton  = new Button();
                 bouton.Content = reponse.texte;
-                bouton.DataContext = new Tuple<int,int>(question.id,reponse.id); // lie l'id de la question et de la réponse au bouton
+                bouton.DataContext = new ReponseJoueursSolo { questionId = question.id, reponseUtilisateurId = reponse.id }; // lie l'id de la question et de la réponse au bouton
                 bouton.Margin = new Thickness(10, 10, 10, 10);
                 bouton.Height = Double.NaN;
                 bouton.Width = Double.NaN;
@@ -92,6 +92,7 @@ namespace Mesi_Software.ViewModel
                 bouton.SetResourceReference(Control.FontSizeProperty, "FontSizeReponse");
                 bouton.HorizontalAlignment = HorizontalAlignment.Stretch;
                 bouton.VerticalAlignment = VerticalAlignment.Stretch;
+                bouton.Padding = new Thickness(0, 0, 0, 0);
                 Grid.SetColumn(bouton, compteurColonne);
                 Grid.SetRow(bouton, compteurLigne);
                 grid.Children.Add(bouton);
@@ -136,31 +137,36 @@ namespace Mesi_Software.ViewModel
             if (Nbreponse < 2)
                 throw new Exceptions.QuestionsException(Constantes.Message.ERROR_MESSAGE_NB_REPONSES_INCORRECT);
 
-            if (Nbreponse == 2)
-                return (2, 2); // 2 lignes car le bouton est énorme sinon
+            if (Nbreponse == 2 || Nbreponse == 3)
+                return (Nbreponse, 2); // 2 lignes car le bouton est énorme sinon            
 
-            else if (Nbreponse % 3 == 0)
-                return (3, Nbreponse / 3);
 
+            if (Nbreponse % 3 == 0)
+                return (3, Nbreponse/3);
             else
                 return (3, (int)Math.Ceiling(Nbreponse / 3.0)); //idem => (int)Math.Round((Nbréponse / 3) + 0.5))
         }
 
+
+        /// <summary>
+        /// Méthode generique qui es appelé lors d'un click sur n'importe quell bouton réponse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bouton_Click(object sender, RoutedEventArgs e)
         {
             if (listQuestions.Count == 0)
-            {
                 return;
-            }
 
             // desactive la grille pour bloquer le double clique:
             _view.grid_reponses.IsEnabled = false;
 
             Button button = sender as Button;
-            Tuple<int,int> idQuestionReponse = button.DataContext as Tuple<int,int>; // recupère l'id de la question et de la reponse lié au bouton
+
+            ReponseJoueursSolo reponseJoueursSolo = button.DataContext as ReponseJoueursSolo;
 
             // ajoute l'id de la question et de la réponse bouton
-            listQuestionReponse.Add(idQuestionReponse);
+            listReponseJoueursSolo.Add(reponseJoueursSolo);
 
             listQuestions.RemoveAt(0);
 
@@ -183,7 +189,14 @@ namespace Mesi_Software.ViewModel
             _view.grid_reponses.ColumnDefinitions.Clear();
             _view.grid_reponses.RowDefinitions.Clear();
 
-            ChangePage(new ScoreSolo());
+            string result =  InteractorHttp.Post(Constantes.Routes.CALCUL_RESULTAT_SOLO_CONTROLLER,listReponseJoueursSolo);
+
+            Scores scores=  JsonSerializer.Deserialize<Scores>(result);
+
+            _scoreViewModel.points = scores.points;
+            _scoreViewModel.pseudo = string.IsNullOrWhiteSpace(windowsViewModel.pseudoSolo) ? "Inconnu" : windowsViewModel.pseudoSolo;
+
+            ChangePage(_scoreView);
         }
     }
 }
