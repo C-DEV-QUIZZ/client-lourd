@@ -15,18 +15,53 @@ namespace Mesi_Software.ViewModel
 {
     public class PseudoViewModel :BaseViewModel
     {
-        private string _modeJeu { get; set; } = "solo";
+        private string _modeJeu;
         public modeJeu modeJeu { get => (modeJeu) Enum.Parse(typeof(modeJeu),_modeJeu); set { _modeJeu = value.ToString(); OnPropertyChanged(); } }
 
+        private string _pseudo = string.Empty;
+
+        public string pseudo
+        {
+            get => _pseudo;
+            set { _pseudo = value; OnPropertyChanged(); }
+        }
+
+        public RelayCommand LoadedCommand => new RelayCommand(exeFunction => onLoad());
+
+
+        MainWindowsViewModel windowsViewModel;
+
+        private Pseudo _view;
+
         public RelayCommand btnHome => new RelayCommand(exeFunction => returnPageAccueil());
+
         public RelayCommand btnGoToGame => new RelayCommand(exeFunction => GoToGame());
 
         public PseudoViewModel(){}
 
 
+        private void onLoad()
+        {
+            // recuperation de la page:
+            windowsViewModel = Application.Current.MainWindow.DataContext as MainWindowsViewModel;
+            _view = windowsViewModel.CurrentPage as Pseudo;
+        }
+
         public void GoToGame()
         {
+
+            Debug.WriteLine(pseudo);
+            if (pseudo.Length < 3)
+            {
+
+                FunctionEvent.MessageErrorOnBouton(_view.btn_valid, "3 caractère minimum !");
+                return;
+            }
+
+
+
             UserControl page;
+
             switch (modeJeu)
             {
                 case modeJeu.solo:

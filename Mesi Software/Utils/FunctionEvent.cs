@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Mesi_Software.Utils
 {
@@ -34,7 +37,24 @@ namespace Mesi_Software.Utils
             Application.Current.Resources["FontSizeInfo"] = vMaxInfo;
             Application.Current.Resources["FontSizeInput"] = vMaxInput;
             Application.Current.Resources["FontSizeReponse"] = vMaxInput;
+            Application.Current.Resources["FontSizeHome"] = vMaxInput >= 30 ? 30 : vMaxInput;
         }
+    
+        public async static void MessageErrorOnBouton(Button bouton, string message)
+        {
+            Brush BaseFontColor = bouton.Foreground;
+            Brush BaseBgColor = bouton.Background;
+            string BaseMsg = bouton.Content.ToString();
+
+            bouton.Foreground = Brushes.Red;
+            bouton.Content = message;
+
+            await Task.Delay(3000);
+            bouton.Foreground = BaseFontColor;
+            bouton.Content = BaseMsg;
+
+        }
+    
     }
 
 }

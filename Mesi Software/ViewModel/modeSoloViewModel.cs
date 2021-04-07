@@ -18,7 +18,7 @@ namespace Mesi_Software.ViewModel
 {
     public class modeSoloViewModel :BaseViewModel
     {
-        private string _questionEnCours { get; set; }
+        private string _questionEnCours { get; set; } = Constantes.QUESTION_DEFAUT;
         public string questionEnCours { get => _questionEnCours +" ?"; set { _questionEnCours = value; OnPropertyChanged(); } }
 
         public RelayCommand LoadedCommand => new RelayCommand(exeFunction => onLoad());
@@ -182,6 +182,8 @@ namespace Mesi_Software.ViewModel
             _view.grid_reponses.Children.Clear();
             _view.grid_reponses.ColumnDefinitions.Clear();
             _view.grid_reponses.RowDefinitions.Clear();
+
+            ChangePage(new ScoreSolo());
         }
     }
 }
