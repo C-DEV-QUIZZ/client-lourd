@@ -1,50 +1,63 @@
 using FluentAssertions;
+using Mesi_Software.Entity;
 using Mesi_Software.Utils;
 using Mesi_Software.ViewModel;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace TestUnitaire_MesiSoftware
 {
     public class Tests
     {
+
         [SetUp]
         public void Setup()
         {
         }
 
-        [Test]
-        public void TestMethodGotoPseudoPageModeSolo()
-        {
-            AccueilViewModel avm = new AccueilViewModel();
+        [TestCase(2,2,1)]
+        [TestCase(3,3,1)]
+        [TestCase(4,3,2)]
+        [TestCase(5,3,2)]
+        [TestCase(6,3,2)]
+        [TestCase(7,3,3)]
+        [TestCase(8,3,3)]
+        [TestCase(9,3,3)]
+        [TestCase(10,3,4)]
+        [TestCase(11,3,4)]
+        [TestCase(12,3,4)]
+        [TestCase(13,3,5)]
+        [TestCase(14,3,5)]
+        [TestCase(15,3,5)]
 
-            avm.GotoPseudoPage(Enums.modeJeu.solo);
-
-            Assert.Pass();
-        }        
-
-        [Test]
-        public void TestMethodGotoPseudoPageModeMulti()
-        {
-            //GIVEN
-            AccueilViewModel avm = new AccueilViewModel();
-            
-            //WHEN
-            Action act = () =>{avm.GotoPseudoPage(Enums.modeJeu.multi);};
-
-            // THEN
-            act.Should().ThrowExactly<Exception>().WithMessage("Le mode choisit est inexistant");
-        }        
-        [Test]
-        public void TestMethodeQuitteApplication()
+        public void TestCalculNbRowColumn(int nbReponse,int NbColonne,int NbLigne)
         {
             //GIVEN
-            AccueilViewModel avm = new AccueilViewModel();
+            modeSoloViewModel msvm = new modeSoloViewModel();
 
             //WHEN
-            avm.QuitterApplication();
+            (int colonnes,int lignes) result = msvm.CalculNombreColumnRow(nbReponse);
 
-            // THEN
+            //THEN
+            result.colonnes.Should().Be(NbColonne);
+            result.lignes.Should().Be(NbLigne);
+
+        }        
+        
+        [TestCase(-1)]
+        [TestCase(0)]
+        [TestCase(1)]
+        public void TestCalculNbRowColumnZero(int NbReponse)
+        {
+            //GIVEN
+            modeSoloViewModel msvm = new modeSoloViewModel();
+
+            //WHEN
+            Action act = () => { msvm.CalculNombreColumnRow(NbReponse); };
+
+            //THEN
+            act.Should().Throw<Exceptions.QuestionsException>().WithMessage(Constantes.Message.ERROR_MESSAGE_NB_REPONSES_INCORRECT);
         }
 
 

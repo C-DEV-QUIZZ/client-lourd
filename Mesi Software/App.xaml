@@ -18,11 +18,13 @@
             <SolidColorBrush x:Key="InfoSuccess" Color="#FF95ED99"/>
             <SolidColorBrush x:Key="InfoDiscret" Color="#FF3C77AA"/>
             <sys:Double x:Key="FontSizeTitre">36</sys:Double>
+            <sys:Double x:Key="FontSizeHome">24</sys:Double>
             <sys:Double x:Key="FontSizeNormal">24</sys:Double>
+            <sys:Double x:Key="FontSizeReponse">20</sys:Double>
             <sys:Double x:Key="FontSizeInfo">15</sys:Double>
             <sys:Double x:Key="FontSizeInput">24</sys:Double>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Yellow" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

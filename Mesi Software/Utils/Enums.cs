@@ -10,8 +10,9 @@ namespace Mesi_Software.Utils
     {
         public enum modeJeu
         {
-            solo,
-            multi
+            multi,
+            solo
+            
         }
 
     }
