@@ -14,6 +14,9 @@
 13/03/2021
 - migration vers Net core + implementation template MVVM
 - Ajout de la navigation 
-- RAF : 
-    - réussir a implementer soit la navigation avec parametre 
-    - soit intégrer une valeur dans la page précèdente que l'on récupere dans la page d'arrvié.
+
+26/05/2021 : Rapport sur les 2 mois précédents
+- Integration complète du client lourd en mode solo
+- Integration wpf responsive (non disponible de base) = calcul à la volée lors d'un resizing
+- Intégration de l'installateur
+
