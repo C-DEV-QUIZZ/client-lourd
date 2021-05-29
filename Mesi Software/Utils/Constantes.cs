@@ -16,13 +16,17 @@ namespace Mesi_Software.Utils
 
         public class Routes
         {
-            private const string ADRESSE = "http://localhost:80/controller/";
+            private const string ADRESSE = "http://localhost:3000/";
 
-            public const string MODE_RECEPTION_CONTROLLER = ADRESSE+ "receptionModeController.php";
+            private const string CONTROLLER = "controller/";
 
-            public const string MODE_SOLO_CONTROLLER = ADRESSE+ "modeSoloController.php";
+            private const string MODE_SOLO = "modeSolo/";
 
-            public const string CALCUL_RESULTAT_SOLO_CONTROLLER = ADRESSE+ "calculResultatSoloController.php";
+            public const string MODE_RECEPTION_CONTROLLER = ADRESSE+ CONTROLLER + "receptionMode";
+
+            public const string MODE_SOLO_CONTROLLER = ADRESSE+ CONTROLLER + MODE_SOLO + "start";
+
+            public const string CALCUL_RESULTAT_SOLO_CONTROLLER = ADRESSE+ CONTROLLER + MODE_SOLO + "calculResult";
         }
 
         public class Message
