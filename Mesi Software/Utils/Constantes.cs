@@ -14,19 +14,22 @@ namespace Mesi_Software.Utils
 
         public const string PSEUDO_INCONNU = "Inconnu";
 
-        public class Routes
+        public const string ENVIRONNEMENT_BACK_ADRESSE = "AdresseBack";
+
+
+        public static class Routes
         {
-            private const string ADRESSE = "http://localhost:3000/";
+            public static readonly string ADRESSE_BACK = Environment.GetEnvironmentVariable(Constantes.ENVIRONNEMENT_BACK_ADRESSE);
 
             private const string CONTROLLER = "controller/";
 
             private const string MODE_SOLO = "modeSolo/";
 
-            public const string MODE_RECEPTION_CONTROLLER = ADRESSE+ CONTROLLER + "receptionMode";
+            public static readonly string MODE_RECEPTION_CONTROLLER = ADRESSE_BACK + CONTROLLER + "receptionMode";
 
-            public const string MODE_SOLO_CONTROLLER = ADRESSE+ CONTROLLER + MODE_SOLO + "start";
+            public static readonly string MODE_SOLO_CONTROLLER = ADRESSE_BACK + CONTROLLER + MODE_SOLO + "start";
 
-            public const string CALCUL_RESULTAT_SOLO_CONTROLLER = ADRESSE+ CONTROLLER + MODE_SOLO + "calculResult";
+            public static readonly string CALCUL_RESULTAT_SOLO_CONTROLLER = ADRESSE_BACK + CONTROLLER + MODE_SOLO + "calculResult";
         }
 
         public class Message
