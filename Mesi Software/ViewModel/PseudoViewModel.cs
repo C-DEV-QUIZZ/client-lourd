@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
 using System.Windows.Controls;
+using System.Threading.Tasks;
 
 namespace Mesi_Software.ViewModel
 {
@@ -38,7 +39,6 @@ namespace Mesi_Software.ViewModel
         public RelayCommand btnGoToGame => new RelayCommand(exeFunction => GoToGame());
 
         public PseudoViewModel(){}
-
 
         private void onLoad()
         {

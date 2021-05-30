@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using System.Windows;
 using Mesi_Software.View;
+using Mesi_Software.Utils;
 
 namespace Mesi_Software.ViewModel
 {
@@ -37,6 +38,10 @@ namespace Mesi_Software.ViewModel
         private Pseudo _pseudoView = new Pseudo(); // (1)
 
         private PseudoViewModel _pseudoViewModel; // (2)
+
+        private string _adresseBack;
+
+        public string adresseBack { get => Constantes.Routes.ADRESSE_BACK; set { _adresseBack = value; OnPropertyChanged(); } }
 
         public AccueilViewModel()
         {
