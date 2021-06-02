@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Windows;
 using Mesi_Software.View;
 using Mesi_Software.Utils;
+using WebSocketSharp;
+using System.Threading.Tasks;
 
 namespace Mesi_Software.ViewModel
 {
@@ -43,6 +45,20 @@ namespace Mesi_Software.ViewModel
 
         public string adresseBack { get => Constantes.Routes.ADRESSE_BACK; set { _adresseBack = value; OnPropertyChanged(); } }
 
+        public WebSocket ws;
+        public string url = "ws://localhost:3000";
+
+
+        public void callWebSocker()
+        {
+            ws = new WebSocket(url);
+            ws.Connect();
+            Task.Delay(3000).Wait();
+            Console.WriteLine("close");
+            ws.Close();
+        }
+
+
         public AccueilViewModel()
         {
             appVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -59,7 +75,8 @@ namespace Mesi_Software.ViewModel
                     break;
 
                 case modeJeu.multi:
-                    _pseudoViewModel.modeJeu = mode; 
+                    _pseudoViewModel.modeJeu = mode;
+                    callWebSocker();
                     break;
 
                 default:
